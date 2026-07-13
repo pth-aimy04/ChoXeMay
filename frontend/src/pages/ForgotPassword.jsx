@@ -5,14 +5,17 @@ import axiosClient from "../api/axiosClient";
 export default function ForgotPassword() {
     const navigate = useNavigate();
 
+    // Lưu email và trạng thái xử lý
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
 
+    // Xử lý gửi mã OTP
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage("");
 
+        // Kiểm tra email
         if (!email) {
             setMessage("Vui lòng nhập email");
             return;
@@ -21,15 +24,19 @@ export default function ForgotPassword() {
         try {
             setLoading(true);
 
+            // Gửi yêu cầu lấy OTP
             const res = await axiosClient.post("/auth/forgot-password", {
                 email
             });
 
+            // Chuyển sang trang đặt lại mật khẩu
             alert(res.data.message);
             navigate("/reset-password", { state: { email } });
         } catch (error) {
+            // Hiển thị lỗi
             setMessage(error.response?.data?.message || "Lỗi gửi OTP");
         } finally {
+            // Kết thúc xử lý
             setLoading(false);
         }
     };

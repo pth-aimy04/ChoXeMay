@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../api/axiosClient";
 
+const API_URL = (
+    import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+).replace("/api", "");
+
 export default function AdminPosts() {
     const [posts, setPosts] = useState([]);
     const [statusFilter, setStatusFilter] = useState("all");
     const [loading, setLoading] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
+    
 
     const fetchPosts = async () => {
         try {
@@ -102,7 +107,7 @@ export default function AdminPosts() {
                                 <div className="admin-post-image-box">
                                     {post.images && post.images.length > 0 ? (
     <img
-        src={`http://localhost:5000${post.images[0].image_url}`}
+        src={`${API_URL}${post.images[0].image_url}`}
         alt={post.title}
     />
 ) : (
@@ -176,7 +181,7 @@ export default function AdminPosts() {
         selectedPost.images.map((img) => (
             <img
                 key={img.image_id}
-                src={`http://localhost:5000${img.image_url}`}
+                 src={`${API_URL}${img.image_url}`}
                 alt={selectedPost.title}
             />
         ))
@@ -242,3 +247,9 @@ export default function AdminPosts() {
         </>
     );
 }
+
+
+
+
+
+

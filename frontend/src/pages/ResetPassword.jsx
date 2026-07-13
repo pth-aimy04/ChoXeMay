@@ -6,6 +6,7 @@ export default function ResetPassword() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    // Lưu thông tin đặt lại mật khẩu
     const [email, setEmail] = useState(location.state?.email || "");
     const [otp, setOtp] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -13,15 +14,18 @@ export default function ResetPassword() {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
+    // Xử lý đặt lại mật khẩu
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage("");
 
+        // Kiểm tra dữ liệu đầu vào
         if (!email || !otp || !newPassword || !confirmPassword) {
             setMessage("Vui lòng nhập đầy đủ thông tin");
             return;
         }
 
+        // Kiểm tra mật khẩu xác nhận
         if (newPassword !== confirmPassword) {
             setMessage("Mật khẩu xác nhận không khớp");
             return;
@@ -30,17 +34,21 @@ export default function ResetPassword() {
         try {
             setLoading(true);
 
+            // Gửi yêu cầu đặt lại mật khẩu
             const res = await axiosClient.post("/auth/reset-password", {
                 email,
                 otp,
                 new_password: newPassword
             });
 
+            // Chuyển về trang đăng nhập
             alert(res.data.message);
             navigate("/login");
         } catch (error) {
+            // Hiển thị lỗi
             setMessage(error.response?.data?.message || "Lỗi đặt lại mật khẩu");
         } finally {
+            // Kết thúc xử lý
             setLoading(false);
         }
     };

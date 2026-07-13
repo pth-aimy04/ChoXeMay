@@ -3,11 +3,14 @@ import axiosClient from "../api/axiosClient";
 import PostCard from "../components/PostCard";
 
 export default function Home() {
+
+    // Lưu danh sách tin đăng và kết quả tìm kiếm
     const [posts, setPosts] = useState([]);
     const [keyword, setKeyword] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
 
+    // Lấy danh sách tất cả tin đăng
     const fetchPosts = async () => {
         try {
             const res = await axiosClient.get("/posts");
@@ -17,6 +20,7 @@ export default function Home() {
         }
     };
 
+    // Tìm kiếm tin đăng theo từ khóa hoặc bộ lọc
     const searchPosts = async (params = {}) => {
         try {
             setIsSearching(true);
@@ -36,20 +40,23 @@ export default function Home() {
         }
     };
 
-const handleSearch = () => {
-    if (!keyword.trim()) {
-        setSearchResults([]);
-        return;
-    }
+    // Xử lý khi nhấn nút tìm kiếm
+    const handleSearch = () => {
+        if (!keyword.trim()) {
+            setSearchResults([]);
+            return;
+        }
 
-    searchPosts();
-};
+        searchPosts();
+    };
 
+    // Tìm kiếm theo danh mục gợi ý
     const handleCategoryClick = (value) => {
         setKeyword(value);
         searchPosts({ keyword: value });
     };
 
+    // Tải danh sách tin đăng khi mở trang
     useEffect(() => {
         fetchPosts();
     }, []);
@@ -157,3 +164,12 @@ const handleSearch = () => {
         </main>
     );
 }
+
+
+
+
+
+
+
+
+

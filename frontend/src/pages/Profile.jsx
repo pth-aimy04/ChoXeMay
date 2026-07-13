@@ -10,6 +10,10 @@ import {
 } from "lucide-react";
 import { applyTheme } from "../theme";
 
+const API_URL = (
+    import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+).replace("/api", "");
+
 export default function Profile() {
 const [tab, setTab] = useState("posts");
 const [user, setUser] = useState(null);
@@ -200,17 +204,17 @@ const handleResetPasswordByOtp = async (e) => {
                 <div className="profile-cover-logo">ChoXeMay</div>
             </section>
 
-            <section className="profile-info-card">
-<div className="profile-avatar">
-    {user?.avatar_url ? (
-        <img
-            src={`http://localhost:5000${user.avatar_url}`}
-            alt={user.full_name}
-        />
-    ) : (
-        user?.full_name?.charAt(0)
-    )}
-</div>
+<section className="profile-info-card">
+    <div className="profile-avatar">
+        {user?.avatar_url ? (
+            <img
+                src={`${API_URL}${user.avatar_url}`}
+                alt={user.full_name}
+            />
+        ) : (
+            user?.full_name?.charAt(0)
+        )}
+    </div>
 
                 <div className="profile-info-main">
                     <h1>{user?.full_name}</h1>
@@ -608,3 +612,6 @@ const handleResetPasswordByOtp = async (e) => {
         </main>
     );
 }
+
+
+

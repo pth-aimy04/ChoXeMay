@@ -16,6 +16,9 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Notifications from "./pages/Notifications";
 import SavedPosts from "./pages/SavedPosts";
+import Messages from "./pages/Messages";
+import ChatRoom from "./pages/ChatRoom";
+import SellerPosts from "./pages/SellerPosts";
 
 import AdminLayout from "./components/AdminLayout";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -26,7 +29,7 @@ import AdminModels from "./pages/AdminModels";
 import AdminTypes from "./pages/AdminTypes";
 import AdminNotifications from "./pages/AdminNotifications";
 import AdminReports from "./pages/AdminReports";
-import SellerPosts from "./pages/SellerPosts";
+
 
 function AppContent() {
     const location = useLocation();
@@ -53,6 +56,8 @@ function AppContent() {
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/favorites" element={<SavedPosts />} />
                 <Route path="/notifications" element={<Notifications />} />
+                <Route path="/messages" element={<Messages />} />
+                <Route path="/messages/:conversation_id" element={<ChatRoom />} />
 
                 {/* Admin */}
                 <Route path="/admin" element={<AdminLayout />}>

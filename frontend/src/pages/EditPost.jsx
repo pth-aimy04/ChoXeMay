@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../api/axiosClient";
+const API_URL = (
+    import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+).replace("/api", "");
 
 export default function EditPost() {
     const { id } = useParams();
@@ -223,20 +226,20 @@ export default function EditPost() {
                         </div>
                     </div>
 
-                    <label>Ảnh hiện tại</label>
-                    <div className="edit-image-grid">
-                        {oldImages.length > 0 ? (
-                            oldImages.map((img) => (
-                                <img
-                                    key={img.image_id}
-                                    src={`http://localhost:5000${img.image_url}`}
-                                    alt="Ảnh hiện tại"
-                                />
-                            ))
-                        ) : (
-                            <p className="edit-no-image">Chưa có ảnh.</p>
-                        )}
-                    </div>
+                 <label>Ảnh hiện tại</label>
+<div className="edit-image-grid">
+    {oldImages.length > 0 ? (
+        oldImages.map((img) => (
+            <img
+                key={img.image_id}
+                src={`${API_URL}${img.image_url}`}
+                alt="Ảnh hiện tại"
+            />
+        ))
+    ) : (
+        <p className="edit-no-image">Chưa có ảnh.</p>
+    )}
+</div>
 
                     <label>Chọn ảnh mới nếu muốn thay đổi</label>
                     <input

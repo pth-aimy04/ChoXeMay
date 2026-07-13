@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Pencil, Trash2, CheckCircle } from "lucide-react";
 import axiosClient from "../api/axiosClient";
+const API_URL = (
+    import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+).replace("/api", "");
 
 export default function SellerPosts() {
     const [posts, setPosts] = useState([]);
@@ -60,14 +63,14 @@ export default function SellerPosts() {
                     <div className="seller-post-list">
                         {posts.map((post) => (
                             <div className="seller-post-item" key={post.post_id}>
-                                <img
-                                    src={
-                                        post.thumbnail
-                                            ? `http://localhost:5000${post.thumbnail}`
-                                            : "/no-image.png"
-                                    }
-                                    alt={post.title}
-                                />
+                               <img
+    src={
+        post.thumbnail
+            ? `${API_URL}${post.thumbnail}`
+            : "/no-image.png"
+    }
+    alt={post.title}
+/>
 
                                 <div className="seller-post-info">
                                     <h3>{post.title}</h3>

@@ -5,6 +5,7 @@ import axiosClient from "../api/axiosClient";
 export default function Register() {
     const navigate = useNavigate();
 
+    // Lưu dữ liệu đăng ký
     const [form, setForm] = useState({
         full_name: "",
         email: "",
@@ -13,9 +14,11 @@ export default function Register() {
         confirmPassword: ""
     });
 
+    // Thông báo lỗi và thành công
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
+    // Cập nhật dữ liệu khi nhập
     const handleChange = (e) => {
         setForm({
             ...form,
@@ -23,36 +26,41 @@ export default function Register() {
         });
     };
 
-    
+    // Xử lý đăng ký tài khoản
     const handleSubmit = async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    setError("");
-    setSuccess("");
+        setError("");
+        setSuccess("");
 
-    if (form.password !== form.confirmPassword) {
-        setError("Mật khẩu nhập lại không khớp");
-        return;
-    }
+        // Kiểm tra mật khẩu xác nhận
+        if (form.password !== form.confirmPassword) {
+            setError("Mật khẩu nhập lại không khớp");
+            return;
+        }
 
-    try {
-        const res = await axiosClient.post("/auth/register", {
-            full_name: form.full_name,
-            email: form.email,
-            phone: form.phone,
-            password: form.password
-        });
+        try {
+            // Gửi yêu cầu đăng ký
+            const res = await axiosClient.post("/auth/register", {
+                full_name: form.full_name,
+                email: form.email,
+                phone: form.phone,
+                password: form.password
+            });
 
-        setSuccess(res.data.message || "Đăng ký thành công");
+            // Thông báo thành công
+            setSuccess(res.data.message || "Đăng ký thành công");
 
-        setTimeout(() => {
-            navigate("/login");
-        }, 1000);
+            // Chuyển sang trang đăng nhập
+            setTimeout(() => {
+                navigate("/login");
+            }, 1000);
 
-    } catch (err) {
-        setError(err.response?.data?.message || "Đăng ký thất bại");
-    }
-};
+        } catch (err) {
+            // Hiển thị lỗi nếu đăng ký thất bại
+            setError(err.response?.data?.message || "Đăng ký thất bại");
+        }
+    };
     return (
         <main className="auth-page">
             <div className="auth-card">

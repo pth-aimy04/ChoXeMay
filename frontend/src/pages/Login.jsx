@@ -5,13 +5,16 @@ import axiosClient from "../api/axiosClient";
 export default function Login() {
     const navigate = useNavigate();
 
+    // Lưu dữ liệu đăng nhập
     const [form, setForm] = useState({
         email: "",
         password: ""
     });
 
+    // Thông báo lỗi
     const [error, setError] = useState("");
 
+    // Cập nhật dữ liệu khi nhập
     const handleChange = (e) => {
         setForm({
             ...form,
@@ -19,22 +22,27 @@ export default function Login() {
         });
     };
 
+    // Xử lý đăng nhập
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
+            // Gửi yêu cầu đăng nhập
             const res = await axiosClient.post("/auth/login", form);
 
+            // Lưu token và thông tin người dùng
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("user", JSON.stringify(res.data.user));
 
+            // Điều hướng theo vai trò
             if (res.data.user.role === "admin") {
                 navigate("/admin");
             } else {
                 navigate("/");
             }
         } catch (err) {
+            // Hiển thị lỗi nếu đăng nhập thất bại
             setError(err.response?.data?.message || "Đăng nhập thất bại");
         }
     };

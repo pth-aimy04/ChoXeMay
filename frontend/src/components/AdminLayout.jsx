@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import AdminSidebar from "../pages/AdminSidebar";
+import Header from "../components/Header";
 
 export default function AdminLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -18,12 +19,16 @@ export default function AdminLayout() {
     }, []);
 
     return (
-        <main className={`admin-shell ${sidebarOpen ? "" : "sidebar-closed"}`}>
-            <AdminSidebar />
+        <>
+            <Header />
 
-            <section className="admin-main">
-                <Outlet />
-            </section>
-        </main>
+            <main className={`admin-shell ${sidebarOpen ? "" : "sidebar-closed"}`}>
+                <AdminSidebar />
+
+                <section className="admin-main">
+                    <Outlet />
+                </section>
+            </main>
+        </>
     );
 }

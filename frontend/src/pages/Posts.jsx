@@ -141,3 +141,8 @@ const clearFilters = async () => {
         </main>
     );
 }
+
+
+
+
+
