@@ -1,9 +1,7 @@
 const { sql, poolPromise } = require("../config/db");
 
 const createPost = async (req, res) => {
-
     try {
-
         const {
             title,
             description,
@@ -21,85 +19,70 @@ const createPost = async (req, res) => {
 
         const pool = await poolPromise;
 
-        await pool.request()
+        const result = await pool.request()
             .input("seller_id", sql.Int, seller_id)
-
             .input("title", sql.NVarChar, title)
-            .input("description", sql.NVarChar, description)
-
+            .input("description", sql.NVarChar, description || null)
             .input("type_id", sql.Int, type_id)
             .input("brand_id", sql.Int, brand_id)
-            .input("model_id", sql.Int, model_id)
-
+            .input("model_id", sql.Int, model_id || null)
             .input("price", sql.Decimal(18, 2), price)
-
-            .input("manufacture_year", sql.Int, manufacture_year)
-            .input("mileage", sql.Int, mileage)
-
+            .input(
+                "manufacture_year",
+                sql.Int,
+                manufacture_year || null
+            )
+            .input("mileage", sql.Int, mileage || null)
             .input("ward_id", sql.Int, ward_id)
             .input("location_detail", sql.NVarChar, location_detail)
-
             .query(`
                 INSERT INTO Posts
                 (
                     seller_id,
-
                     title,
                     description,
-
                     type_id,
                     brand_id,
                     model_id,
-
                     price,
-
                     manufacture_year,
                     mileage,
-
                     ward_id,
                     location_detail,
-
                     status
                 )
+                OUTPUT INSERTED.post_id
                 VALUES
                 (
                     @seller_id,
-
                     @title,
                     @description,
-
                     @type_id,
                     @brand_id,
                     @model_id,
-
                     @price,
-
                     @manufacture_year,
                     @mileage,
-
                     @ward_id,
                     @location_detail,
-
                     'pending'
                 )
             `);
 
+        const post_id = result.recordset[0].post_id;
+
         return res.status(201).json({
-            message: "Đăng tin thành công, chờ admin duyệt"
+            message: "Đăng tin thành công, chờ admin duyệt",
+            post_id
         });
-
     } catch (error) {
-
-        console.error(error);
+        console.error("Lỗi tạo tin đăng:", error);
 
         return res.status(500).json({
             message: "Lỗi tạo tin đăng"
         });
-
     }
-
 };
-
 
 
 

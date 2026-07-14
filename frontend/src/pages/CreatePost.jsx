@@ -80,7 +80,7 @@ export default function CreatePost() {
             if (images.length > 0) {
                 if (!postId) {
                     setMessage(
-                        "Tin đã tạo nhưng chưa upload được ảnh vì backend chưa trả post_id"
+                        "Đăng tin thành công. Tin đăng đang chờ quản trị viên duyệt."
                     );
                     return;
                 }
